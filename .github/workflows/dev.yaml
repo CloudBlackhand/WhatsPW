@@ -45,7 +45,7 @@ jobs:
       matrix:
         include:
           # Chromium - x86
-          - runner: 'buildjet-4vcpu-ubuntu-2204'
+          - runner: 'ubuntu-latest'
             tag: 'dev'
             platform: 'amd64'
             browser: 'chromium'
@@ -53,7 +53,7 @@ jobs:
             goss: 'goss-linux-amd64'
 
           # Chrome - x86
-          - runner: 'buildjet-4vcpu-ubuntu-2204'
+          - runner: 'ubuntu-latest'
             tag: 'dev-chrome'
             platform: 'amd64'
             browser: 'chrome'
@@ -61,7 +61,7 @@ jobs:
             goss: 'goss-linux-amd64'
 
           # Chromium - ARM
-          - runner: 'buildjet-4vcpu-ubuntu-2204-arm'
+          - runner: 'ubuntu-24.04-arm'
             tag: 'dev-arm'
             platform: 'linux/arm64'
             browser: 'chromium'
