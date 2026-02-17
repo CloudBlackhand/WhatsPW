@@ -124,7 +124,8 @@
     "ws": "^8.18.0",
     "puppeteer": "^24.31.0",
     "whatwg-url": "13.0.0",
-    "axios": "^1.9.0"
+    "axios": "^1.9.0",
+    "whatsapp-rust-bridge": "github:devlikeapro/whatsapp-rust-bridge.git#fork-master-2026-02-04"
   },
   "devDependencies": {
     "@grpc/grpc-js": "^1.14.1",

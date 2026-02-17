@@ -43,6 +43,9 @@ up-noweb-libsignal:
 up-webjs:
 	yarn up whatsapp-web.js@github:devlikeapro/whatsapp-web.js#fork-main-2026-02-01
 
+up-rust-bridge:
+	yarn up -R whatsapp-rust-bridge
+
 start-proxy:
 	docker run --rm -d --name squid-container -e TZ=UTC -p 3128:3128 ubuntu/squid:5.2-22.04_beta
 
@@ -57,4 +60,3 @@ gows:
 copy-dashboard:
 	cd ../waha-hub/ui && \
 	make copy-waha
-
