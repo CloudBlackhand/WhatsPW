@@ -35,7 +35,7 @@ for-swagger:
 	export WHATSAPP_SWAGGER_CONFIG_ADVANCED=true && export WHATSAPP_SWAGGER_PASSWORD=666 && yarn start
 
 up-noweb:
-	yarn up @adiwajshing/baileys@github:devlikeapro/Baileys#fork-master-2026-01-25
+	yarn up @adiwajshing/baileys@github:devlikeapro/Baileys#fork-master-2026-02-11
 
 up-noweb-libsignal:
 	yarn up libsignal@github:devlikeapro/libsignal-node#fork-master
