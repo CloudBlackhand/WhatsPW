@@ -7,7 +7,7 @@ __metadata:
 
 "@adiwajshing/baileys@github:devlikeapro/Baileys#fork-master-2026-02-11":
   version: 7.0.0-rc.9
-  resolution: "@adiwajshing/baileys@https://github.com/devlikeapro/Baileys.git#commit=0e6f2b68a0d914ca2d6557dc60b7cce7ae3d3912"
+  resolution: "@adiwajshing/baileys@https://github.com/devlikeapro/Baileys.git#commit=538d2daaebad0b286b4f18601676b074de91bdc1"
   dependencies:
     "@cacheable/node-cache": "npm:^1.4.0"
     "@hapi/boom": "npm:^9.1.3"
@@ -32,7 +32,7 @@ __metadata:
       optional: true
     link-preview-js:
       optional: true
-  checksum: 10/486ee2428c6f4748e351d2040d25c13664009f18a29bb5b9d7724e111c1d1d3248c4b67559424ed0a53e2beb6275719074d752a893130b224eae0ee4401a0d3f
+  checksum: 10/4d7ef0ae5b78a1540196bf3b5c3e6d4c585c601cd4af726692a6988b653999a663c4825565e86d5ce7624c7dbc32d1b2610c59c504a571cc2aa9c985e533e09a
   languageName: node
   linkType: hard
 
