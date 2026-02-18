@@ -1006,6 +1006,10 @@ export class WhatsappSessionNoWebCore extends WhatsappSession {
     const options = {
       messageId: this.generateMessageID(),
     };
+    if (isJidNewsletter(jid)) {
+      // Newsletter edits reuse the original message ID
+      options.messageId = key.id;
+    }
     return await this.sock.sendMessage(jid, message, options);
   }
 
