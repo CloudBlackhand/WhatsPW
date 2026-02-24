@@ -358,6 +358,16 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
           PAGE_CALL_ERROR_EVENT,
           (event: CallErrorEvent) => {
             if (event.error instanceof ProtocolError) {
+              if (this.shouldIgnoreProtocolError(event.error)) {
+                this.logger.warn(
+                  `ProtocolError when calling page method: ${String(
+                    event.method,
+                  )}, ignoring...`,
+                );
+                this.logger.warn(event.error);
+                return;
+              }
+
               this.logger.error(
                 `ProtocolError when calling page method: ${String(
                   event.method,
@@ -416,6 +426,16 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
     // We'll restart the client if it's in the process of unpairing
     this.status = WAHASessionStatus.FAILED;
     this.restartClient();
+  }
+
+  /**
+   * Certain Puppeteer ProtocolErrors (e.g. Network.getResponseBody) are harmless.
+   * Ignore them so we do not thrash the session state machine.
+   * https://github.com/devlikeapro/waha/issues/1918
+   */
+  private shouldIgnoreProtocolError(error: ProtocolError): boolean {
+    const message = error?.message ?? String(error ?? '');
+    return message.includes('Network.getResponseBody');
   }
 
   async unpair() {
