@@ -12796,8 +12796,8 @@ __metadata:
 
 "whatsapp-rust-bridge@github:devlikeapro/whatsapp-rust-bridge.git#fork-master-2026-02-04":
   version: 0.5.2
-  resolution: "whatsapp-rust-bridge@https://github.com/devlikeapro/whatsapp-rust-bridge.git#commit=9fb931fbb991f5ff01142f72de41c21b39ed3a8f"
-  checksum: 10/b96e5efaf70f975eb3e51513c65c1f73f45f88946196c8f4c7c5c940a3975b2fb3b696bddc5378798e80e242f21fe7cdf4141a81dd405b85ef44272a28d6e76f
+  resolution: "whatsapp-rust-bridge@https://github.com/devlikeapro/whatsapp-rust-bridge.git#commit=fb27e512cb2db6515a21792c2273c498e812f16b"
+  checksum: 10/78ad750756dc55af8bfb52846e338aa7dadce00c211db8a252f3fa6ca8ce67d23187a0e3e03e524ce5404e7ad902ea1903086e6034f469f7cfe4f646abbf34c8
   languageName: node
   linkType: hard
 
