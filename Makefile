@@ -41,7 +41,7 @@ up-noweb-libsignal:
 	yarn up libsignal@github:devlikeapro/libsignal-node#fork-master
 
 up-webjs:
-	yarn up whatsapp-web.js@github:devlikeapro/whatsapp-web.js#fork-main-2026-02-01
+	yarn up whatsapp-web.js@github:devlikeapro/whatsapp-web.js#fork-main-2026-02-18
 
 up-rust-bridge:
 	yarn up -R whatsapp-rust-bridge
