@@ -52,7 +52,7 @@ class NOWEBHelper implements IEngineHelper {
   }
 
   FilterChatIdsForMessages(chats: string[]): string[] {
-    return chats;
+    return preferPnChats(chats);
   }
 
   ContactIsMy(contact) {
@@ -96,7 +96,7 @@ class GOWSHelper implements IEngineHelper {
   }
 
   FilterChatIdsForMessages(chats: string[]): string[] {
-    return chats;
+    return preferPnChats(chats);
   }
 
   SupportsAllChatForMessage(): boolean {
@@ -150,17 +150,7 @@ class WEBJSHelper implements IEngineHelper {
   }
 
   FilterChatIdsForMessages(chats: string[]): string[] {
-    if (chats.length == 2) {
-      const lidChat = chats.find(isLidUser);
-      const cusChat = chats.find(isPnUser);
-      if (lidChat && cusChat) {
-        return [lidChat];
-      }
-      // WEBJS engine merges messages for @lid and @c.us
-      // into single chat, so it's fine to pull only from one
-    }
-    // Otherwise - return the original
-    return chats;
+    return preferPnChats(chats);
   }
 
   SupportsAllChatForMessage(): boolean {
@@ -190,3 +180,14 @@ switch (getEngineName()) {
 }
 
 export const EngineHelper = engineHelper;
+
+function preferPnChats(chats: string[]): string[] {
+  const unique = lodash.uniq(chats ?? []);
+  const hasPn = unique.some(isPnUser);
+  const hasLid = unique.some(isLidUser);
+  if (hasPn && hasLid) {
+    // Prefer @c.us / phone chats when both formats exist to avoid duplicate fetches.
+    return unique.filter(isPnUser);
+  }
+  return unique;
+}
