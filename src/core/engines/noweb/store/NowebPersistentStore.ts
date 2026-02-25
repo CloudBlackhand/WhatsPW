@@ -288,7 +288,11 @@ export class NowebPersistentStore implements INowebStore {
         );
         continue;
       }
-      const message = await this.messagesRepo.getByJidById(jid, update.key.id);
+      let message = await this.messagesRepo.getByJidById(jid, update.key.id);
+      if (!message) {
+        // Fallback to just id
+        message = await this.messagesRepo.getById(update.key.id);
+      }
       if (!message) {
         this.logger.warn(
           `got update for non-existent message. update: '${JSON.stringify(
