@@ -44,6 +44,7 @@ import { INowebStorage } from './INowebStorage';
 import { INowebStore } from './INowebStore';
 import { LabelAssociationType } from '../labels/LabelAssociationType';
 import esm from '@waha/vendor/esm';
+import { StatusStringToStatus } from '@waha/core/utils/acks';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AsyncLock = require('async-lock');
@@ -249,6 +250,9 @@ export class NowebPersistentStore implements INowebStore {
   private async syncMessagesHistory(messages) {
     const realMessages = messages.filter(esm.b.isRealMessage);
     messages = messages.filter((msg) => this.jids.include(msg.key.remoteJid));
+    for (const message of messages) {
+      message.status = StatusStringToStatus(message.status);
+    }
     await this.messagesRepo.upsert(realMessages);
     this.logger.info(
       `history sync - '${messages.length}' got messages, '${realMessages.length}' real messages`,
