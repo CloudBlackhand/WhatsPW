@@ -131,7 +131,7 @@ export class NowebPersistentStore implements INowebStore {
             return {
               id: message.key.remoteJid,
               lid: lid,
-              jid: pn,
+              phoneNumber: pn,
             };
           })
           .filter(Boolean);
