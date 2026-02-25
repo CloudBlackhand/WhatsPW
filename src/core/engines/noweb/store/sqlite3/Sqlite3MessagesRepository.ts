@@ -6,17 +6,26 @@ import { PaginationParams } from '@waha/structures/pagination.dto';
 
 import { IMessagesRepository } from '../IMessagesRepository';
 import { NOWEBSqlite3KVRepository } from './NOWEBSqlite3KVRepository';
+import { INowebLidPNRepository } from '../INowebLidPNRepository';
+import Knex from 'knex';
 
 export class Sqlite3MessagesRepository
   extends NOWEBSqlite3KVRepository<any>
   implements IMessagesRepository
 {
+  constructor(
+    knex: Knex.Knex,
+    private readonly lidRepository: INowebLidPNRepository,
+  ) {
+    super(knex);
+  }
+
   get schema() {
     return NowebMessagesSchema;
   }
 
   get methods() {
-    return new SqlMessagesMethods(this);
+    return new SqlMessagesMethods(this, this.lidRepository);
   }
 
   get metadata() {
