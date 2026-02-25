@@ -12794,10 +12794,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"whatsapp-rust-bridge@github:devlikeapro/whatsapp-rust-bridge.git#fork-master-2026-02-04":
+"whatsapp-rust-bridge@npm:@devlikeapro/whatsapp-rust-bridge@0.5.2":
   version: 0.5.2
-  resolution: "whatsapp-rust-bridge@https://github.com/devlikeapro/whatsapp-rust-bridge.git#commit=fb27e512cb2db6515a21792c2273c498e812f16b"
-  checksum: 10/78ad750756dc55af8bfb52846e338aa7dadce00c211db8a252f3fa6ca8ce67d23187a0e3e03e524ce5404e7ad902ea1903086e6034f469f7cfe4f646abbf34c8
+  resolution: "@devlikeapro/whatsapp-rust-bridge@npm:0.5.2"
+  checksum: 10/720f7b450089e9d56d4b5a5677a7f3f2ca81c4deb2c2d16f4b6a6292fae9eab8f61343d29682f77aedd3d0879871fe303aba45409482a2739d102d126ff76306
   languageName: node
   linkType: hard
 
