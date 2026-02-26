@@ -31,7 +31,7 @@ export class SqlChatMethods {
           .select(
             'annotated_chats.*',
             knex.raw(
-              'ROW_NUMBER() OVER (PARTITION BY annotated_chats.primary_jid ORDER BY annotated_chats.primary_priority ASC, annotated_chats."conversationTimestamp" DESC) as __rownum',
+              'ROW_NUMBER() OVER (PARTITION BY annotated_chats.primary_jid ORDER BY annotated_chats."conversationTimestamp" DESC, annotated_chats.primary_priority ASC) as __rownum',
             ),
           )
           .from(annotatedQuery)
