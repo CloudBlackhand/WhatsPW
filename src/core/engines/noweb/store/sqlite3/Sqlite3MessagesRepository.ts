@@ -40,12 +40,13 @@ export class Sqlite3MessagesRepository
     jid: string,
     filter: GetChatMessagesFilter,
     pagination: PaginationParams,
+    merge?: boolean,
   ): Promise<any[]> {
-    return this.methods.getAllByJid(jid, filter, pagination);
+    return this.methods.getAllByJid(jid, filter, pagination, merge);
   }
 
-  async getByJidById(jid: string, id: string): Promise<any> {
-    return this.methods.getByJidById(jid, id);
+  async getByJidById(jid: string, id: string, merge?: boolean): Promise<any> {
+    return this.methods.getByJidById(jid, id, merge);
   }
 
   async updateByJidAndId(

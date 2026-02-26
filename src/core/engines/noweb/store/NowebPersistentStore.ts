@@ -607,24 +607,35 @@ export class NowebPersistentStore implements INowebStore {
     chatId: string,
     filter: GetChatMessagesFilter,
     pagination: PaginationParams,
+    merge: boolean = true,
   ): Promise<any> {
     pagination.sortBy = 'messageTimestamp';
     pagination.sortOrder = pagination.sortOrder || SortOrder.DESC;
-    return this.messagesRepo.getAllByJid(chatId, filter, pagination);
+    return this.messagesRepo.getAllByJid(chatId, filter, pagination, merge);
   }
 
-  getMessageById(chatId: string, messageId: string): Promise<any> {
-    return this.messagesRepo.getByJidById(chatId, messageId);
+  getMessageById(
+    chatId: string,
+    messageId: string,
+    merge: boolean = true,
+  ): Promise<any> {
+    return this.messagesRepo.getByJidById(chatId, messageId, merge);
   }
 
   getChats(
     pagination: PaginationParams,
     broadcast: boolean,
     filter?: OverviewFilter,
+    merge: boolean = true,
   ): Promise<Chat[]> {
     pagination.sortBy ||= 'conversationTimestamp';
     pagination.sortOrder ||= SortOrder.DESC;
-    return this.chatRepo.getAllWithMessages(pagination, broadcast, filter);
+    return this.chatRepo.getAllWithMessages(
+      pagination,
+      broadcast,
+      filter,
+      merge,
+    );
   }
 
   async getChat(jid: string): Promise<Chat | null> {

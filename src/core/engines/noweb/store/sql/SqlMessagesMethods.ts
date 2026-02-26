@@ -21,11 +21,17 @@ export class SqlMessagesMethods {
     jid: string,
     filter: GetChatMessagesFilter,
     pagination: PaginationParams,
+    merge: boolean = true,
   ): Promise<any[]> {
     let query = this.repository.select();
+    const tableName = this.repository.table;
     if (jid !== ALL_JID) {
-      const pnJid = await this.resolvePnJid(jid);
-      query = this.applyPnJidFilter(query, pnJid);
+      if (merge) {
+        const pnJid = await this.resolvePnJid(jid);
+        query = this.applyPnJidFilter(query, pnJid);
+      } else {
+        query = query.where(`${tableName}.jid`, jid);
+      }
     }
     if (filter['filter.timestamp.lte'] != null) {
       query = query.where(
@@ -64,14 +70,23 @@ export class SqlMessagesMethods {
     return this.repository.all(query);
   }
 
-  async getByJidById(jid: string, id: string): Promise<any> {
+  async getByJidById(
+    jid: string,
+    id: string,
+    merge: boolean = true,
+  ): Promise<any> {
     if (jid === ALL_JID) {
       return this.repository.getBy({ id: id });
     }
     const tableName = this.repository.table;
-    const pnJid = await this.resolvePnJid(jid);
     const baseQuery = this.repository.select().where(`${tableName}.id`, id);
-    const query = this.applyPnJidFilter(baseQuery, pnJid);
+    let query;
+    if (merge) {
+      const pnJid = await this.resolvePnJid(jid);
+      query = this.applyPnJidFilter(baseQuery, pnJid);
+    } else {
+      query = baseQuery.andWhere(`${tableName}.jid`, jid);
+    }
     const rows = await query.limit(1);
     if (!rows.length) {
       return null;

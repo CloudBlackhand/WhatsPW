@@ -11,12 +11,23 @@ export class SqlChatMethods {
     pagination: PaginationParams,
     broadcast: boolean,
     filter?: OverviewFilter,
+    merge: boolean = true,
   ): Promise<Chat[]> {
     const knex = this.repository.getKnex();
     const tableName = this.repository.table;
-    const baseQuery = this.repository
+    let baseQuery = this.repository
       .select()
       .whereNotNull(`${tableName}.conversationTimestamp`);
+
+    if (!merge) {
+      baseQuery = this.applyNonMergedFilters(baseQuery, tableName, {
+        broadcast,
+        filter,
+      });
+      const pagedQuery = this.repository.pagination(baseQuery, pagination);
+      const rows = await pagedQuery;
+      return rows.map((row) => this.repository.parse(row));
+    }
 
     const annotatedQuery = this.annotateWithPnJid(knex, baseQuery, {
       tableName,
@@ -44,7 +55,7 @@ export class SqlChatMethods {
 
     return rows.map((row) => {
       const chat = this.repository.parse(row);
-      if (row.primary_jid) {
+      if (merge && row.primary_jid) {
         chat.id = row.primary_jid;
       }
       return chat;
@@ -90,5 +101,22 @@ export class SqlChatMethods {
   private buildPnJidExpr(tableName: string) {
     const column = `"${tableName}"."id"`;
     return `CASE WHEN ${column} LIKE '%@lid' THEN COALESCE(lid_map.pn, ${column}) ELSE ${column} END`;
+  }
+
+  private applyNonMergedFilters(
+    query: Knex.QueryBuilder,
+    tableName: string,
+    opts: { broadcast: boolean; filter?: OverviewFilter },
+  ) {
+    let filtered = query;
+    if (!opts.broadcast) {
+      filtered = filtered
+        .andWhereNot(`${tableName}.id`, 'like', '%@broadcast')
+        .andWhereNot(`${tableName}.id`, 'like', '%@newsletter');
+    }
+    if (opts.filter?.ids && opts.filter.ids.length > 0) {
+      filtered = filtered.whereIn(`${tableName}.id`, opts.filter.ids);
+    }
+    return filtered;
   }
 }
