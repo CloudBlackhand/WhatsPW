@@ -78,6 +78,9 @@ This guide summarizes how to explore, modify, and validate the WhatsApp HTTP API
 - Prefer named function declarations over `const` arrow functions when possible.
 - Avoid naming unused variables with a leading underscore; if a parameter is
   required by a signature, explicitly `void` it instead.
+- Do not write verbose ternaries like
+  `condition !== undefined ? condition : default`; use idiomatic helpers such as
+  `??` (nullish coalescing) or existing boolean parsers so flags stay readable.
 - For configs, prefer runtime configurability over constants. Environment keys
   follow `WAHA_*` for global values and `WAHA_SESSION_CONFIG_*` /
   `session.config.*` for per-session overrides. If both env and config are
