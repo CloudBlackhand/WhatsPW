@@ -95,7 +95,7 @@ export class SqlChatMethods {
       });
     }
 
-    return annotated.select(`${opts.tableName}.*`);
+    return annotated;
   }
 
   private buildPnJidExpr(tableName: string) {
