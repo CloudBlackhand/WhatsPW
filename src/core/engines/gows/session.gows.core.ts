@@ -916,6 +916,7 @@ export class WhatsappSessionGoWSCore extends WhatsappSession {
     return data.id;
   }
 
+  @Activity()
   async rejectCall(from: string, id: string): Promise<void> {
     const request = new messages.RejectCallRequest({
       session: this.session,
@@ -1079,6 +1080,7 @@ export class WhatsappSessionGoWSCore extends WhatsappSession {
     };
   }
 
+  @Activity()
   async checkNumberStatus(
     request: CheckNumberStatusQuery,
   ): Promise<WANumberExistResult> {

@@ -694,6 +694,7 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
     return screenshot as Buffer;
   }
 
+  @Activity()
   async checkNumberStatus(
     request: CheckNumberStatusQuery,
   ): Promise<WANumberExistResult> {
@@ -737,6 +738,7 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
   /**
    * Other methods
    */
+  @Activity()
   async rejectCall(from: string, id: string): Promise<void> {
     const peerJid = normalizeJid(this.ensureSuffix(from));
     const call = new CallInstance(this.whatsapp, null);

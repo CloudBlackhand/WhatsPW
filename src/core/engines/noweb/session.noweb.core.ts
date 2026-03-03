@@ -908,6 +908,7 @@ export class WhatsappSessionNoWebCore extends WhatsappSession {
   /**
    * Other methods
    */
+  @Activity()
   async checkNumberStatus(
     request: CheckNumberStatusQuery,
   ): Promise<WANumberExistResult> {
@@ -927,6 +928,7 @@ export class WhatsappSessionNoWebCore extends WhatsappSession {
     return this.generateMessageID();
   }
 
+  @Activity()
   async rejectCall(from: string, id: string): Promise<void> {
     const jid = toJID(this.ensureSuffix(from));
     await this.sock.rejectCall(id, jid);

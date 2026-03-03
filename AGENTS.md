@@ -142,3 +142,40 @@ You can find related source code in the following paths:
 
 Following this playbook keeps contributions aligned with WAHA’s structure,
 automation hooks, and release process.
+
+## How to run API
+
+You can run the project outside of sandbox using the below command, then run
+queries against `default` session (if not asked to do something different) using
+`curl` and `X-Api-Key: 666` header.
+
+```bash
+export DEBUG=1
+export WAHA_API_KEY=666
+export WAHA_DASHBOARD_PASSWORD=666
+export WAHA_DASHBOARD_USERNAME=admin
+export WWHATSAPP_SWAGGER_USERNAME=admin
+export WHATSAPP_SWAGGER_PASSWORD=666
+export WHATSAPP_DEFAULT_ENGINE={WEBJS|WPP|NOWEB|GOWS}
+export WAHA_DEBUG_MODE=True
+export WAHA_HTTP_STRICT_MODE=1
+export WAHA_MEDIA_STORAGE=LOCAL
+export WHATSAPP_FILES_FOLDER=./.media
+
+npm run start
+```
+
+- Ask user before running the server.
+- Before executing some queries make sure the session is in `WORKING` status.
+- If it's `FAILED` or `SCAN_QR_CODE` ask user to scan QR code or fix failed
+  session.
+
+## Code
+
+### @Activity Decorator and Presence Tracking
+
+Add `@Activity()` (from `src/core/abc/activity.ts`) to every engine method that
+makes a network call to WhatsApp servers. It triggers `maintainPresenceOnline()`
+before the method runs, keeping the session ONLINE during API activity and
+scheduling an OFFLINE transition after an idle period. Skip it on methods that
+only throw `NotImplementedByEngineError` / `AvailableInPlusVersion`.
