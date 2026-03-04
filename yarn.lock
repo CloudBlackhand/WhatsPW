@@ -4276,6 +4276,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/user-agents@npm:^1":
+  version: 1.0.4
+  resolution: "@types/user-agents@npm:1.0.4"
+  checksum: 10/e76d540672ca549e9fe24ed99dd2322744afdff3cbd79c14f04b2560dec04b4045e9f520ae6309f5240e978a7fa8b174f8af99460a3de46bfd4aa20b20472452
+  languageName: node
+  linkType: hard
+
 "@types/validator@npm:^13.7.10":
   version: 13.15.1
   resolution: "@types/validator@npm:13.15.1"
@@ -9421,6 +9428,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.clonedeep@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.clonedeep@npm:4.5.0"
+  checksum: 10/957ed243f84ba6791d4992d5c222ffffca339a3b79dbe81d2eaf0c90504160b500641c5a0f56e27630030b18b8e971ea10b44f928a977d5ced3c8948841b555f
+  languageName: node
+  linkType: hard
+
 "lodash.defaults@npm:^4.2.0":
   version: 4.2.0
   resolution: "lodash.defaults@npm:4.2.0"
@@ -13697,6 +13711,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"user-agents@npm:^1.1.669":
+  version: 1.1.669
+  resolution: "user-agents@npm:1.1.669"
+  dependencies:
+    lodash.clonedeep: "npm:^4.5.0"
+  checksum: 10/0815cf00384f98b27e50de4a7b5f39b5663743d71876e6306688d45a324bca9cd64a9a751938795fe74a5fc8d31cb2408efc01445e796779a2ed0a6d253c459c
+  languageName: node
+  linkType: hard
+
 "utf8-byte-length@npm:^1.0.1":
   version: 1.0.5
   resolution: "utf8-byte-length@npm:1.0.5"
@@ -13801,6 +13824,7 @@ __metadata:
     "@types/semver": "npm:^7.7.0"
     "@types/sqlite3": "npm:^5.1.0"
     "@types/supertest": "npm:^2.0.8"
+    "@types/user-agents": "npm:^1"
     "@types/ws": "npm:^8.5.4"
     "@wppconnect-team/wppconnect": "npm:^1.40.1"
     adm-zip: "npm:0.5.10"
@@ -13870,6 +13894,7 @@ __metadata:
     ulid: "npm:^2.3.0"
     undici: "npm:^7.16.0"
     uniqid: "npm:^5.4.0"
+    user-agents: "npm:^1.1.669"
     whatsapp-web.js: "github:devlikeapro/whatsapp-web.js#fork-main-2026-02-18"
     write-file-atomic: "npm:^6.0.0"
     yaml: "npm:^2.7.1"
