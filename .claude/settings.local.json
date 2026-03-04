@@ -1,5 +1,13 @@
 {
   "permissions": {
-    "allow": ["Bash(yarn build:*)", "Bash(cat:*)"]
+    "allow": [
+      "Bash(yarn build:*)",
+      "Bash(cat:*)",
+      "Bash(node:*)",
+      "Bash(npm show:*)",
+      "Bash(python3:*)",
+      "Bash(yarn test:unit:*)",
+      "Bash(npx tsc:*)"
+    ]
   }
 }
