@@ -185,6 +185,9 @@ import {
   WAHA_CLIENT_BROWSER_NAME,
   WAHA_CLIENT_DEVICE_NAME,
 } from '@waha/core/env';
+import { removeSingletonFiles } from '@waha/core/utils/chrome';
+import { killProcessesByPatterns } from '@waha/core/utils/processes';
+import { IsChrome } from '@waha/version';
 
 export interface WebJSConfig {
   webVersion?: string;
@@ -269,6 +272,11 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
         strict: true,
       },
     };
+  }
+
+  protected getUserDataDir(): string {
+    const base = process.env.WAHA_LOCAL_STORE_BASE_DIR || './.sessions';
+    return `${base}/webjs/default/session-${this.name}`;
   }
 
   protected async buildClient() {
@@ -403,6 +411,13 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
   }
 
   async start() {
+    await killProcessesByPatterns(
+      [IsChrome ? 'chrome' : 'chromium', `--a-waha-session=${this.name}`],
+      'SIGKILL',
+      this.logger,
+    );
+    await removeSingletonFiles(this.getUserDataDir());
+
     this.status = WAHASessionStatus.STARTING;
     await this.init().catch((err) => {
       this.logger.error('Failed to start the client');
