@@ -4,6 +4,7 @@ import { WAHAEngine } from '@waha/structures/enums.dto';
 import { getEngineName } from '@waha/version';
 import { Message as MessageInstance } from 'whatsapp-web.js/src/structures';
 import { isLidUser, isPnUser, toCusFormat } from '@waha/core/utils/jids';
+import { parseMessageIdSerialized } from '@waha/core/utils/ids';
 import { WAMessage } from '@waha/structures/responses.dto';
 import { CallData } from '@waha/structures/calls.dto';
 
@@ -162,6 +163,62 @@ class WEBJSHelper implements IEngineHelper {
   }
 }
 
+class WPPHelper implements IEngineHelper {
+  ChatID(message: WAMessage): string {
+    return toCusFormat(parseMessageIdSerialized(message.id as any).remoteJid);
+  }
+
+  CallChatID(call: CallData): string {
+    return call.from;
+  }
+
+  /**
+   * Parse API response and get the data for WPP engine.
+   * WPP returns message.id as a composite string "fromMe_chatId_msgId".
+   */
+  WhatsAppMessageKeys(message: any): WhatsAppMessage {
+    const parsed = parseMessageIdSerialized(message.id);
+    return {
+      timestamp: new Date(message.timestamp * 1000),
+      from_me: parsed.fromMe,
+      chat_id: toCusFormat(parsed.remoteJid),
+      message_id: parsed.id,
+      participant: message.author || null,
+    };
+  }
+
+  /**
+   * WPP API lacks server-side sorting hooks, so we buffer and sort by the unix timestamp in memory.
+   */
+  async *IterateMessages<T extends { timestamp: number }>(
+    messages: AsyncGenerator<T>,
+  ): AsyncGenerator<T> {
+    const buffer: T[] = [];
+
+    for await (const message of messages) {
+      buffer.push(message);
+    }
+
+    const sorted = lodash.sortBy(buffer, (item) => item.timestamp);
+
+    for (const message of sorted) {
+      yield message;
+    }
+  }
+
+  FilterChatIdsForMessages(chats: string[]): string[] {
+    return preferPnChats(chats);
+  }
+
+  SupportsAllChatForMessage(): boolean {
+    return false;
+  }
+
+  ContactIsMy(contact) {
+    return contact.isMyContact;
+  }
+}
+
 // Choose the right EngineHelper based on getEngineName() function
 let engineHelper: IEngineHelper;
 
@@ -174,6 +231,9 @@ switch (getEngineName()) {
     break;
   case WAHAEngine.WEBJS:
     engineHelper = new WEBJSHelper();
+    break;
+  case WAHAEngine.WPP:
+    engineHelper = new WPPHelper();
     break;
   default:
     engineHelper = new WEBJSHelper(); // Default to WEBJS as it's the default engine

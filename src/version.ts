@@ -34,7 +34,8 @@ export function getWorker() {
 }
 
 function getBrowser() {
-  return getEngineName() === WAHAEngine.WEBJS
+  return getEngineName() === WAHAEngine.WEBJS ||
+    getEngineName() === WAHAEngine.WPP
     ? getBrowserExecutablePath()
     : null;
 }
