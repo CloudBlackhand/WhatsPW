@@ -25,6 +25,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { Observable, retry, share } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { getNamespace, getSessionNamespace } from '../config';
 import { WhatsappConfigService } from '../config.service';
 import {
   WAHAEngine,
@@ -107,7 +108,7 @@ export class SessionManagerCore extends SessionManager implements OnModuleInit {
         }),
     );
 
-    this.store = new LocalStoreCore(engineName.toLowerCase());
+    this.store = new LocalStoreCore(getNamespace(), getSessionNamespace());
     this.sessionAuthRepository = new LocalSessionAuthRepository(this.store);
     this.clearStorage().catch((error) => {
       this.log.error({ error }, 'Error while clearing storage');
