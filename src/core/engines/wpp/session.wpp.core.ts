@@ -129,6 +129,7 @@ import { IMediaEngineProcessor } from '@waha/core/media/IMediaEngineProcessor';
 import { IWPPAuthManager } from '@waha/core/engines/wpp/IWPPAuthManager';
 import { QR } from '@waha/core/QR';
 import { removeSingletonFiles } from '@waha/core/utils/chrome';
+import { getSessionNamespace } from '@waha/config';
 import { killProcessesByPatterns } from '@waha/core/utils/processes';
 import { DistinctAck } from '@waha/core/utils/reactive';
 import { isJidGroup, toCusFormat } from '@waha/core/utils/jids';
@@ -212,7 +213,7 @@ export class WhatsappSessionWPPCore extends WhatsappSession {
 
   protected getUserDataDir(): string {
     const base = process.env.WAHA_LOCAL_STORE_BASE_DIR || './.sessions';
-    return `${base}/wpp/default/${this.name}`;
+    return `${base}/${getSessionNamespace()}/${this.name}`;
   }
 
   async start() {
