@@ -541,10 +541,11 @@ export class WhatsappSessionWPPCore extends WhatsappSession {
   public async forwardMessage(
     request: MessageForwardRequest,
   ): Promise<WAMessage> {
-    const sent = await this.wpp!.forwardMessage(
+    const sentMessages = await this.wpp!.forwardMessagesV2(
       this.ensureSuffix(request.chatId),
       request.messageId,
     );
+    const sent = Array.isArray(sentMessages) && sentMessages.length > 0;
     return {
       sent: Boolean(sent),
     } as any;
