@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Agent as HttpsAgent } from 'https';
-import UserAgent from 'user-agents';
+// @ts-ignore
+import * as UserAgent from 'user-agents';
 
 const InsecureHttpsAgent = new HttpsAgent({
   rejectUnauthorized: false,
