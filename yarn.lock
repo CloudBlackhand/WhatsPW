@@ -4391,13 +4391,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wppconnect-team/wppconnect@npm:^1.40.1":
-  version: 1.40.1
-  resolution: "@wppconnect-team/wppconnect@npm:1.40.1"
+"@wppconnect-team/wppconnect@npm:^1.41.1":
+  version: 1.41.1
+  resolution: "@wppconnect-team/wppconnect@npm:1.41.1"
   dependencies:
     "@img/sharp-win32-x64": "npm:^0.34.5"
-    "@wppconnect/wa-js": "npm:^3.22.1"
-    "@wppconnect/wa-version": "npm:^1.5.3099"
+    "@wppconnect/wa-js": "npm:^3.23.2"
+    "@wppconnect/wa-version": "npm:^1.5.3379"
     atob: "npm:^2.1.2"
     axios: "npm:^1.13.5"
     boxen: "npm:^5.1.2"
@@ -4431,24 +4431,24 @@ __metadata:
       optional: true
     fsevents:
       optional: true
-  checksum: 10/561706bc5a4ba38c20f7a641f6cbdcaf82e8ef9cae7a74eda7cbf21cea2f69be8ce26913f033d43dbfffef23544846b3ab7fb47ac19d33b98efdd624ee7639ff
+  checksum: 10/b3eaadb669819bc5b380f5b18365c4b4e72569062790764b6d9b1b063351cd4b1b1e904a76f1e3f1b7a3b51e81aa5bbda116870086023c6c4360b64de560bcb3
   languageName: node
   linkType: hard
 
-"@wppconnect/wa-js@npm:^3.22.1":
-  version: 3.22.1
-  resolution: "@wppconnect/wa-js@npm:3.22.1"
-  checksum: 10/9315d28a22814a695301ceba19943b13e204f473663d800ebc69d437dec6b379294c606db279411b12cdee92e7496e4e0bc4790862b9e33cedb3b94274670f69
+"@wppconnect/wa-js@npm:^3.23.2":
+  version: 3.23.2
+  resolution: "@wppconnect/wa-js@npm:3.23.2"
+  checksum: 10/68ec7e73d3c0dc078956890941988645cc585dda6f63426f27fbd01e0c0e47f56f3bffa61469a486c9e93f9cff9ae56ab8ec5915a9a7c51fa6327c026885784a
   languageName: node
   linkType: hard
 
-"@wppconnect/wa-version@npm:^1.5.3099":
-  version: 1.5.3336
-  resolution: "@wppconnect/wa-version@npm:1.5.3336"
+"@wppconnect/wa-version@npm:^1.5.3379":
+  version: 1.5.3523
+  resolution: "@wppconnect/wa-version@npm:1.5.3523"
   dependencies:
     node-fetch: "npm:^2.7.0"
-    semver: "npm:^7.7.3"
-  checksum: 10/e2ae0b0ddb8cf1d4d5354a8017dfcc3d7506122105c8ff97332454928b4883e7c2b70c7b8e12e0abe298e3c6ed97b782abd80d0502864e6eb872c23c8398c947
+    semver: "npm:^7.7.4"
+  checksum: 10/b17403a96bae203db9db672c39f243702b979dc9da5a9c23082a9c0b63d67aa8e5e374aeca0ed24817fbd45eb9e906431753199ddb15decb77a9e4c67d624341
   languageName: node
   linkType: hard
 
@@ -11973,6 +11973,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:^7.7.4":
+  version: 7.7.4
+  resolution: "semver@npm:7.7.4"
+  bin:
+    semver: bin/semver.js
+  checksum: 10/26bdc6d58b29528f4142d29afb8526bc335f4fc04c4a10f2b98b217f277a031c66736bf82d3d3bb354a2f6a3ae50f18fd62b053c4ac3f294a3d10a61f5075b75
+  languageName: node
+  linkType: hard
+
 "send@npm:^1.1.0, send@npm:^1.2.0":
   version: 1.2.0
   resolution: "send@npm:1.2.0"
@@ -13537,7 +13546,7 @@ __metadata:
     "@types/supertest": "npm:^2.0.8"
     "@types/user-agents": "npm:^1"
     "@types/ws": "npm:^8.5.4"
-    "@wppconnect-team/wppconnect": "npm:^1.40.1"
+    "@wppconnect-team/wppconnect": "npm:^1.41.1"
     adm-zip: "npm:0.5.10"
     agentkeepalive: "npm:^4.5.0"
     async-lock: "npm:^1.4.1"
