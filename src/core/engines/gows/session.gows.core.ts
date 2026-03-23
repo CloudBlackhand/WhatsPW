@@ -165,7 +165,7 @@ import { promisify } from 'util';
 import * as gows from './types';
 import { MessageStatus } from './types';
 import { isFromFullSync } from '@waha/core/engines/gows/appstate';
-import { toVcardV3 } from '@waha/core/vcard';
+import { parseVCardV3, toVcardV3 } from '@waha/core/vcard';
 import { AckToStatus } from '@waha/core/utils/acks';
 import { ParseEventResponseType } from '@waha/core/utils/events';
 import { DistinctAck, DistinctMessages } from '@waha/core/utils/reactive';
@@ -970,7 +970,11 @@ export class WhatsappSessionGoWSCore extends WhatsappSession {
   @Activity()
   async sendContactVCard(request: MessageContactVcardRequest) {
     const jid = normalizeJid(toJID(this.ensureSuffix(request.chatId)));
-    const contacts = request.contacts.map((el) => ({ vcard: toVcardV3(el) }));
+    const contacts = request.contacts.map((el) => ({
+      displayName:
+        (el as any).fullName || parseVCardV3(el.vcard || '').fullName,
+      vcard: toVcardV3(el),
+    }));
     const message = new messages.MessageRequest({
       jid: jid,
       session: this.session,
