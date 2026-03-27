@@ -60,6 +60,9 @@ gows:
 	export PATH=${HOME}/go/bin:${PATH} && \
 	make all
 
+up-dashboard:
+	node scripts/up-dashboard.js
+
 copy-dashboard:
 	cd ../waha-hub/ui && \
 	make copy-waha
