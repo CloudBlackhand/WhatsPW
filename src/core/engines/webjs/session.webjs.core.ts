@@ -1028,6 +1028,20 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
     messageId: string,
     query: GetChatMessageQuery,
   ): Promise<null | WAMessage> {
+    // WEBJS waits the serializer messageId
+    // {fromMe}_{chatId}_{id}[_{participant}]
+    if (isJidStatusBroadcast(chatId) && !messageId.includes('_')) {
+      // For status - resolve it as "my" if no details provided
+      const me = this.getSessionMeInfo();
+      const lid = me.lid || (await this.whatsapp.findLIDByPhoneNumber(me.id));
+      messageId = SerializeMessageKey({
+        fromMe: true,
+        id: messageId,
+        remoteJid: Jid.BROADCAST,
+        participant: lid,
+      });
+    }
+
     const message = await this.whatsapp.getMessageById(messageId);
     if (!message) return null;
     if (
