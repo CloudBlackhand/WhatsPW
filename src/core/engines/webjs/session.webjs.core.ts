@@ -173,8 +173,10 @@ import {
 
 import { WAJSPresenceChatStateType, WebJSPresence } from './types';
 import {
+  isJidCus,
   isJidGroup,
   isJidStatusBroadcast,
+  isLidUser,
   normalizeJid,
   toCusFormat,
 } from '@waha/core/utils/jids';
@@ -1028,6 +1030,8 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
     messageId: string,
     query: GetChatMessageQuery,
   ): Promise<null | WAMessage> {
+    chatId = this.ensureSuffix(chatId);
+
     // WEBJS waits the serializer messageId
     // {fromMe}_{chatId}_{id}[_{participant}]
     if (isJidStatusBroadcast(chatId) && !messageId.includes('_')) {
@@ -1042,7 +1046,34 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
       });
     }
 
-    const message = await this.whatsapp.getMessageById(messageId);
+    let message: Message | null = null;
+    if (isLidUser(chatId) || isJidCus(chatId)) {
+      // If in DM chats and not fromMe specified - try both fromMe and not
+      if (!messageId.includes('_')) {
+        // FromMe - true
+        if (!message) {
+          const id = SerializeMessageKey({
+            fromMe: true,
+            id: messageId,
+            remoteJid: chatId,
+          });
+          message = await this.whatsapp.getMessageById(id);
+        }
+        // FromMe - false
+        if (!message) {
+          const id = SerializeMessageKey({
+            fromMe: false,
+            id: messageId,
+            remoteJid: chatId,
+          });
+          message = await this.whatsapp.getMessageById(id);
+        }
+      }
+    }
+
+    if (!message) {
+      message = await this.whatsapp.getMessageById(messageId);
+    }
     if (!message) return null;
     if (
       isJidGroup(message.id.remote) ||
