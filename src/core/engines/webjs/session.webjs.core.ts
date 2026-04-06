@@ -2100,15 +2100,19 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
   }
 
   protected extractReplyTo(message: Message): ReplyToMessage | null {
+    const rawData: any = message.rawData;
     // @ts-ignore
-    const quotedMsg = message.rawData?.quotedMsg;
-    if (!quotedMsg) {
+    const quotedMsg = rawData?.quotedMsg;
+    const quotedStanzaId = rawData?.quotedStanzaID || rawData?.quotedStanzaId;
+    if (!quotedMsg && !quotedStanzaId) {
       return;
     }
+    const quotedParticipant =
+      rawData?.quotedParticipant || quotedMsg?.author || quotedMsg?.from;
     return {
-      id: quotedMsg.id?.id,
-      participant: quotedMsg.author || quotedMsg.from,
-      body: quotedMsg.caption || quotedMsg.body,
+      id: quotedStanzaId || quotedMsg?.id?.id,
+      participant: quotedParticipant,
+      body: quotedMsg?.caption || quotedMsg?.body,
       _data: quotedMsg,
     };
   }
