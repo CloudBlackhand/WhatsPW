@@ -489,6 +489,15 @@ whatsapp.to.chatwoot.message.pix: |-
   💳 **PIX Kopyala ve Yapıştır gönderildi**
   {{/pixData}}
 
+whatsapp.to.chatwoot.message.status.reply: |-
+  📣 **WhatsApp Durumuna Yanıt**
+  🏷️ **Tür:** {{type}}
+  {{#quotedText}}
+  📝 **Durum Metni:** {{quotedText}}
+  {{/quotedText}}
+
+  {{content}}
+
 whatsapp.to.chatwoot.message.unsupported: |-
   ⚠️ **Bu mesaj türü bu gelen kutusunda desteklenmiyor.**
   📱 Görüntülemek için lütfen **WhatsApp’ı** açın.

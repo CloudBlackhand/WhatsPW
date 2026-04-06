@@ -489,6 +489,15 @@ whatsapp.to.chatwoot.message.pix: |-
   💳 **PIX ਕਾਪੀ ਅਤੇ ਪੇਸਟ ਭੇਜਿਆ ਗਿਆ**
   {{/pixData}}
 
+whatsapp.to.chatwoot.message.status.reply: |-
+  📣 **WhatsApp ਸਟੇਟਸ ਦਾ ਜਵਾਬ**
+  🏷️ **ਕਿਸਮ:** {{type}}
+  {{#quotedText}}
+  📝 **ਸਟੇਟਸ ਲਿਖਤ:** {{quotedText}}
+  {{/quotedText}}
+
+  {{content}}
+
 whatsapp.to.chatwoot.message.unsupported: |-
   ⚠️ **ਇਹ ਸੁਨੇਹੇ ਦੀ ਕਿਸਮ ਇਸ ਇਨਬਾਕਸ ਵਿੱਚ ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ।**
   📱 ਇਸਨੂੰ ਦੇਖਣ ਲਈ ਕਿਰਪਾ ਕਰਕੇ **WhatsApp** ਖੋਲ੍ਹੋ।

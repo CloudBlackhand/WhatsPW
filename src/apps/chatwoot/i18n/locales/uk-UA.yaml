@@ -489,6 +489,15 @@ whatsapp.to.chatwoot.message.pix: |-
   💳 **PIX Копіювати та Вставити надіслано**
   {{/pixData}}
 
+whatsapp.to.chatwoot.message.status.reply: |-
+  📣 **Відповідь на статус WhatsApp**
+  🏷️ **Тип:** {{type}}
+  {{#quotedText}}
+  📝 **Текст Статусу:** {{quotedText}}
+  {{/quotedText}}
+
+  {{content}}
+
 whatsapp.to.chatwoot.message.unsupported: |-
   ⚠️ **Цей тип повідомлення не підтримується в цих вхідних.**
   📱 Будь ласка, відкрийте **WhatsApp**, щоб переглянути.

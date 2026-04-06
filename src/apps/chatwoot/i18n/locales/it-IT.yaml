@@ -270,6 +270,15 @@ whatsapp.to.chatwoot.message.pix: |-
   💳 **PIX Copia e Incolla inviato**
   {{/pixData}}
 
+whatsapp.to.chatwoot.message.status.reply: |-
+  📣 **Risposta allo stato di WhatsApp**
+  🏷️ **Tipo:** {{type}}
+  {{#quotedText}}
+  📝 **Testo dello Stato:** {{quotedText}}
+  {{/quotedText}}
+
+  {{content}}
+
 whatsapp.to.chatwoot.message.has.media.no.media: |-
   {{#content}}
   {{{content}}}

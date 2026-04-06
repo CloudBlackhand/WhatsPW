@@ -489,6 +489,15 @@ whatsapp.to.chatwoot.message.pix: |-
   💳 **PIX Copiar y Pegar enviado**
   {{/pixData}}
 
+whatsapp.to.chatwoot.message.status.reply: |-
+  📣 **Respuesta al estado de WhatsApp**
+  🏷️ **Tipo:** {{type}}
+  {{#quotedText}}
+  📝 **Texto del Estado:** {{quotedText}}
+  {{/quotedText}}
+
+  {{content}}
+
 whatsapp.to.chatwoot.message.unsupported: |-
   ⚠️ **Este tipo de mensaje no es compatible con esta bandeja de entrada.**
   📱 Por favor, abre **WhatsApp** para verlo.

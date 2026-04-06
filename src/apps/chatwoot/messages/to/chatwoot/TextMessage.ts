@@ -17,10 +17,10 @@ const mime = require('mime-types');
 
 export class TextMessage implements MessageToChatWootConverter {
   constructor(
-    private readonly locale: Locale,
-    private readonly logger: ILogger,
-    private readonly waha: WAHASelf,
-    private readonly job: Job,
+    protected readonly locale: Locale,
+    protected readonly logger: ILogger,
+    protected readonly waha: WAHASelf,
+    protected readonly job: Job,
   ) {}
 
   async convert(
@@ -52,12 +52,14 @@ export class TextMessage implements MessageToChatWootConverter {
     }
     return {
       content: WhatsappToMarkdown(content),
-      attachments,
+      attachments: attachments,
       private: undefined,
     };
   }
 
-  private async getAttachments(payload: WAMessage): Promise<SendAttachment[]> {
+  protected async getAttachments(
+    payload: WAMessage,
+  ): Promise<SendAttachment[]> {
     const hasMedia = payload.media?.url;
     if (!hasMedia) {
       return [];
