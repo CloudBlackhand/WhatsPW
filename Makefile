@@ -57,7 +57,7 @@ proto-gows:
 
 gows:
 	cd ../gows && \
-	export PATH=${HOME}/go/bin:${PATH} && \
+	(export PATH=${HOME}/go/bin:${PATH} || echo failed) && \
 	make all
 
 up-dashboard:
