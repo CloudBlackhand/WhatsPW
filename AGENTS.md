@@ -111,8 +111,7 @@ This guide summarizes how to explore, modify, and validate the WhatsApp HTTP API
 2. Lean on existing services/managers; extend the appropriate session manager
    rather than branching logic inline.
 3. After edits run:
-   - Do **not** run `pre-commit run --all-files` unless the user explicitly
-     asks.
+   - `pre-commit run --all-files`
    - `yarn build`
    - `yarn test --watchman=false`
 4. Do **not** start the application yourself; ask the user to run it if runtime
