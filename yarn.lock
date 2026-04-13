@@ -4442,6 +4442,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@wppconnect/wa-js@npm:^3.23.3":
+  version: 3.23.3
+  resolution: "@wppconnect/wa-js@npm:3.23.3"
+  checksum: 10/8b4407f3f90f781f63800b1023943ff1978ced614c4f9b7075e6470d5feac8176efe25a44b327234c5d2d265b2cf4f490c3fa09dea63720a94be6489cf98cd30
+  languageName: node
+  linkType: hard
+
 "@wppconnect/wa-version@npm:^1.5.3379":
   version: 1.5.3523
   resolution: "@wppconnect/wa-version@npm:1.5.3523"
@@ -13547,6 +13554,7 @@ __metadata:
     "@types/user-agents": "npm:^1"
     "@types/ws": "npm:^8.5.4"
     "@wppconnect-team/wppconnect": "npm:^1.41.1"
+    "@wppconnect/wa-js": "npm:^3.23.3"
     adm-zip: "npm:0.5.10"
     agentkeepalive: "npm:^4.5.0"
     async-lock: "npm:^1.4.1"

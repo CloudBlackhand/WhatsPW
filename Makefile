@@ -45,6 +45,7 @@ up-webjs:
 
 up-wpp:
 	yarn up @wppconnect-team/wppconnect
+	yarn up @wppconnect/wa-js
 
 up-rust-bridge:
 	yarn up -R whatsapp-rust-bridge
