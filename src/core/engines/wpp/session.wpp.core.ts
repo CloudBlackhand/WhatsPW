@@ -1091,7 +1091,7 @@ export class WhatsappSessionWPPCore extends WhatsappSession {
   //
 
   @Activity()
-  public createGroup(request: CreateGroupRequest) {
+  public createGroup(request: CreateGroupRequest): Promise<any> {
     const participants = request.participants.map((participant) =>
       this.ensureSuffix(participant.id),
     );
