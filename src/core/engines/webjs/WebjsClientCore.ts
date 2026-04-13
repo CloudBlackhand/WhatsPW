@@ -1,4 +1,3 @@
-import { exposeFunctionIfAbsent } from '@waha/core/engines/webjs/Puppeteer';
 import { WebJSPresence } from '@waha/core/engines/webjs/types';
 import { GetChatMessagesFilter } from '@waha/structures/chats.dto';
 import { Label } from '@waha/structures/labels.dto';
@@ -25,6 +24,11 @@ const { LoadPaginator } = require('./_Paginator.js');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const ChatFactory = require('whatsapp-web.js/src/factories/ChatFactory');
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const {
+  exposeFunctionIfAbsent,
+} = require('whatsapp-web.js/src/util/Puppeteer');
 
 export class WebjsClientCore extends Client {
   public events = new EventEmitter();
