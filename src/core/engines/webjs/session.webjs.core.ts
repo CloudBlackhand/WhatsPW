@@ -207,6 +207,7 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
   private engineStateCheckDelayedJob: SingleDelayedJobRunner;
   private shouldRestart: boolean;
   private lastQRDate: Date = null;
+  private static readonly REACTION_MAX_AGE_MS = 2 * 24 * 60 * 60 * 1000;
 
   whatsapp: WebjsClientCore;
   protected qr: QR;
@@ -2024,6 +2025,14 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
       if (reaction.timestamp < this.lastQRDate.getTime() / 1000) {
         return null;
       }
+    }
+
+    // Ignore reactions older than 2 days to prevent stale reactions
+    // when session reconnects and replays buffered events
+    const twoDaysAgoSec =
+      (Date.now() - WhatsappSessionWebJSCore.REACTION_MAX_AGE_MS) / 1000;
+    if (reaction.timestamp < twoDaysAgoSec) {
+      return null;
     }
 
     const source = this.getMessageSource(reaction.id.id);
