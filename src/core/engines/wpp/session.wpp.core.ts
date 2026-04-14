@@ -2089,12 +2089,15 @@ export class WhatsappSessionWPPCore extends WhatsappSession {
       quotedMessage?.author ||
       quotedMessage?.from ||
       null;
+    const hasMedia = getHasMedia(quotedMessage);
     return {
       id: quotedMessageId,
       participant: toCusFormat(
         Deserialized(quotedParticipant) || quotedParticipant,
       ),
       body: getMessageBody(quotedMessage),
+      hasMedia: hasMedia,
+      media: null,
       _data: quotedMessage,
     };
   }
@@ -2104,6 +2107,12 @@ export class WhatsappSessionWPPCore extends WhatsappSession {
     if (downloadMedia) {
       const media = await this.downloadMediaSafe(message);
       wamessage.media = media;
+    }
+    if (downloadMedia && wamessage.replyTo?.hasMedia) {
+      const quotedMessage = message?.quotedMsg || message?._data?.quotedMsg;
+      if (quotedMessage) {
+        wamessage.replyTo.media = await this.downloadMediaSafe(quotedMessage);
+      }
     }
     return wamessage;
   }

@@ -2196,6 +2196,16 @@ export class WhatsappSessionGoWSCore extends WhatsappSession {
       const media = await this.downloadMediaSafe(message);
       wamessage.media = media;
     }
+    if (downloadMedia && wamessage.replyTo?.hasMedia) {
+      const msg = {
+        Message: wamessage.replyTo._data,
+        Info: {
+          Chat: message.Info.Chat,
+          ID: wamessage.replyTo.id || '',
+        },
+      };
+      wamessage.replyTo.media = await this.downloadMediaSafe(msg);
+    }
     return wamessage;
   }
 
@@ -2405,10 +2415,13 @@ export class WhatsappSessionGoWSCore extends WhatsappSession {
       return null;
     }
     const body = extractBody(quotedMessage);
+    const mediaContent = extractMediaContent(quotedMessage);
     return {
       id: contextInfo.stanzaID,
       participant: toCusFormat(contextInfo.participant),
       body: body,
+      hasMedia: Boolean(mediaContent),
+      media: null,
       _data: quotedMessage,
     };
   }

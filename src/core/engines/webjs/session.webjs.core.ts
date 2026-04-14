@@ -1991,6 +1991,12 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
       const media = await this.downloadMediaSafe(message);
       wamessage.media = media;
     }
+    if (downloadMedia && wamessage.replyTo?.hasMedia) {
+      const quotedMessage = await message.getQuotedMessage().catch(() => null);
+      if (quotedMessage) {
+        wamessage.replyTo.media = await this.downloadMediaSafe(quotedMessage);
+      }
+    }
     return wamessage;
   }
 
@@ -2158,6 +2164,8 @@ export class WhatsappSessionWebJSCore extends WhatsappSession {
       id: quotedStanzaId || quotedMsg?.id?.id,
       participant: quotedParticipant,
       body: quotedMsg?.caption || quotedMsg?.body,
+      hasMedia: Boolean(quotedMsg?.directPath),
+      media: null,
       _data: quotedMsg,
     };
   }
