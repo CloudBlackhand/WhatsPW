@@ -11,6 +11,7 @@ import { MessageToChatWootConverter } from '@waha/apps/chatwoot/messages/to/chat
 import { WhatsappToMarkdown } from '@waha/apps/chatwoot/messages/to/chatwoot/utils/markdown';
 import { JobLink } from '@waha/apps/app_sdk/JobUtils';
 import { Job } from 'bullmq';
+import { WAMedia } from '@waha/structures/media.dto';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const mime = require('mime-types');
@@ -57,9 +58,9 @@ export class TextMessage implements MessageToChatWootConverter {
     };
   }
 
-  protected async getAttachments(
-    payload: WAMessage,
-  ): Promise<SendAttachment[]> {
+  protected async getAttachments(payload: {
+    media?: WAMedia;
+  }): Promise<SendAttachment[]> {
     const hasMedia = payload.media?.url;
     if (!hasMedia) {
       return [];

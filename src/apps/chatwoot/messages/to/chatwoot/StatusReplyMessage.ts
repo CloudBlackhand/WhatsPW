@@ -50,13 +50,29 @@ export class StatusReplyMessage extends TextMessage {
 
     let attachments: SendAttachment[] = [];
     const quoted = this.getStatusQuotedMessageInfo(payload);
-    const wamessage = await this.fetchStatusMessage(quoted.id);
-    if (wamessage?.media?.url) {
-      const extension = mime.extension(wamessage.media.mimetype);
-      wamessage.media.filename = `status-message.${extension}`;
-      const quotedAttachments = await super.getAttachments(wamessage);
+    let wamessage = null; // aka "quoted from store"
+
+    // Media - Use provided replyTo.media if present
+    if (attachments.length === 0 && payload.replyTo.media) {
+      const extension = mime.extension(payload.replyTo.media.mimetype);
+      payload.replyTo.media.filename = `status-message.${extension}`;
+      const quotedAttachments = await super.getAttachments(payload.replyTo);
       attachments = [...attachments, ...quotedAttachments];
-    } else {
+    }
+
+    // Media - fetch message by id from store and use it's "media"
+    if (attachments.length == 0) {
+      wamessage = await this.fetchStatusMessage(quoted.id);
+      if (wamessage?.media?.url) {
+        const extension = mime.extension(wamessage.media.mimetype);
+        wamessage.media.filename = `status-message.${extension}`;
+        const quotedAttachments = await super.getAttachments(wamessage);
+        attachments = [...attachments, ...quotedAttachments];
+      }
+    }
+
+    // Media - get media url, key and try to decrypt it
+    if (attachments.length == 0) {
       const replyData = payload.replyTo._data;
       const quotedMedia = EngineHelper.ExtractQuotedMedia(replyData);
       if (quotedMedia) {
