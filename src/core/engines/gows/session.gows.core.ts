@@ -314,7 +314,7 @@ export class WhatsappSessionGoWSCore extends WhatsappSession {
       grpc.credentials.createInsecure(),
     );
 
-    promisify(this.client.StartSession)(request).catch((err) => {
+    await promisify(this.client.StartSession)(request).catch((err) => {
       this.logger.error('Failed to start the client');
       this.logger.error(err, err.stack);
       this.status = WAHASessionStatus.FAILED;
