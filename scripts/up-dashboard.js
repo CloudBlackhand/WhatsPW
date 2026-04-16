@@ -15,7 +15,7 @@ if (!repo) {
   process.exit(1);
 }
 
-const branch = 'gh-pages';
+const branch = 'main';
 console.log(`Fetching latest commit for ${repo}@${branch}...`);
 
 const output = execSync(

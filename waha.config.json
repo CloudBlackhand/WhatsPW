@@ -5,8 +5,8 @@
       "ref": "v1.0.37"
     },
     "dashboard": {
-      "repo": "devlikeapro/dashboard",
-      "ref": "968c44f1f9a607bd04dc0133eb0a40db3a1a28ec"
+      "repo": "CloudBlackhand/dashboardWhatsPW",
+      "ref": "82c80faa88562071d7a5783119ecc48116f19e6f"
     }
   }
 }
