@@ -20,7 +20,17 @@ function FromEnv(
   let value = process.env[param];
   const common = search.includes(value);
   if (common && !skip) {
-    // Use generated value for the setting
+    const human =
+      value === undefined || value === null
+        ? 'unset'
+        : value === ''
+          ? 'empty'
+          : JSON.stringify(String(value));
+    console.warn(
+      `[WAHA Auth] ${param}=${human} is treated as insecure or placeholder; ` +
+        `using an auto-generated secret instead. ` +
+        `Use a strong password (not admin/123/321/waha/…) or set the matching *_NO_PASSWORD flag.`,
+    );
     return {
       param: param,
       value: adefault,
@@ -103,12 +113,34 @@ export class AuthConfig {
   }
 
   private getSwagger(): UserPassword {
-    const password = FromEnv(
-      'WHATSAPP_SWAGGER_PASSWORD',
-      parseBool(process.env.WHATSAPP_SWAGGER_NO_PASSWORD),
-      this.dashboard.password.value,
-      keys,
+    const swaggerNoPassword = parseBool(
+      process.env.WHATSAPP_SWAGGER_NO_PASSWORD,
     );
+    let password: SValue;
+    if (swaggerNoPassword) {
+      password = {
+        param: 'WHATSAPP_SWAGGER_PASSWORD',
+        value: null,
+        generated: false,
+      };
+    } else if (
+      process.env.WHATSAPP_SWAGGER_PASSWORD === undefined ||
+      process.env.WHATSAPP_SWAGGER_PASSWORD === ''
+    ) {
+      // Same as dashboard; do not mark generated (avoids noisy "copy swagger" logs)
+      password = {
+        param: 'WHATSAPP_SWAGGER_PASSWORD',
+        value: this.dashboard.password.value,
+        generated: false,
+      };
+    } else {
+      password = FromEnv(
+        'WHATSAPP_SWAGGER_PASSWORD',
+        false,
+        this.dashboard.password.value,
+        keys,
+      );
+    }
     const username = FromEnv(
       'WHATSAPP_SWAGGER_USERNAME',
       false,
