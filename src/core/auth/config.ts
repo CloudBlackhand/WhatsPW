@@ -1,5 +1,7 @@
 import { parseBool } from '@waha/helpers';
 import * as crypto from 'crypto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface SValue {
   param: string;
@@ -156,6 +158,34 @@ export class AuthConfig {
 
 export const Auth = new AuthConfig();
 
+function generatedEnvSnapshotPath(): string {
+  if (process.env.WAHA_GENERATED_ENV_FILE) {
+    return path.resolve(process.cwd(), process.env.WAHA_GENERATED_ENV_FILE);
+  }
+  const baseDir = process.env.WAHA_LOCAL_STORE_BASE_DIR || './.sessions';
+  return path.resolve(process.cwd(), baseDir, 'waha-generated.env');
+}
+
+function writeGeneratedEnvFile(lines: string[]): void {
+  if (parseBool(process.env.WAHA_SKIP_GENERATED_ENV_FILE)) {
+    return;
+  }
+  try {
+    const filePath = generatedEnvSnapshotPath();
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    const body =
+      '# WAHA — auto-generated credentials (do not commit). Copy to PaaS env or .env.\n' +
+      `# ${new Date().toISOString()}\n` +
+      `${lines.join('\n')}\n`;
+    fs.writeFileSync(filePath, body, { mode: 0o600 });
+    console.warn(
+      `[WAHA Auth] Wrote ${lines.length} variable(s) to ${filePath} (same content as below).`,
+    );
+  } catch (err) {
+    console.error('[WAHA Auth] Failed to write waha-generated.env:', err);
+  }
+}
+
 export function ReportGeneratedValue() {
   let values = [
     Auth.key,
@@ -168,6 +198,22 @@ export function ReportGeneratedValue() {
   if (values.length === 0) {
     return;
   }
+  const params = new Set(values.map((v) => v.param));
+  const lines: string[] = [];
+  for (const key of values) {
+    if (key.value != null) {
+      lines.push(`${key.param}=${key.value}`);
+    }
+  }
+  if (
+    !params.has('WHATSAPP_SWAGGER_PASSWORD') &&
+    Auth.dashboard.password.generated &&
+    Auth.swagger.password.value != null &&
+    !parseBool(process.env.WHATSAPP_SWAGGER_NO_PASSWORD)
+  ) {
+    lines.push(`WHATSAPP_SWAGGER_PASSWORD=${Auth.swagger.password.value}`);
+  }
+
   console.warn('');
   console.warn('⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️');
   console.warn('Generated credentials (persist to .env or WAHA_* env vars)');
@@ -177,11 +223,13 @@ export function ReportGeneratedValue() {
   console.warn('');
   console.warn("cat <<'EOF' >> .env");
   console.warn('');
-  for (const key of values) {
-    console.warn(`${key.param}=${key.value}`);
+  for (const line of lines) {
+    console.warn(line);
   }
   console.warn('EOF');
   console.warn('');
   console.warn('Generated credentials ready to copy');
   console.warn('⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️');
+
+  writeGeneratedEnvFile(lines);
 }
