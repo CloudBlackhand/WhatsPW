@@ -43,12 +43,13 @@ COPY waha.config.json /tmp/waha.config.json
 RUN \
     WAHA_DASHBOARD_GITHUB_REPO=$(jq -r '.waha.dashboard.repo' /tmp/waha.config.json) && \
     WAHA_DASHBOARD_SHA=$(jq -r '.waha.dashboard.ref' /tmp/waha.config.json) && \
+    WAHA_DASHBOARD_REPO_BASENAME="${WAHA_DASHBOARD_GITHUB_REPO##*/}" && \
     wget https://github.com/${WAHA_DASHBOARD_GITHUB_REPO}/archive/${WAHA_DASHBOARD_SHA}.zip \
     && unzip ${WAHA_DASHBOARD_SHA}.zip -d /tmp/dashboard \
     && mkdir -p /dashboard \
-    && mv /tmp/dashboard/dashboard-${WAHA_DASHBOARD_SHA}/* /dashboard/ \
+    && mv /tmp/dashboard/${WAHA_DASHBOARD_REPO_BASENAME}-${WAHA_DASHBOARD_SHA}/* /dashboard/ \
     && rm -rf ${WAHA_DASHBOARD_SHA}.zip \
-    && rm -rf /tmp/dashboard/dashboard-${WAHA_DASHBOARD_SHA}
+    && rm -rf /tmp/dashboard/${WAHA_DASHBOARD_REPO_BASENAME}-${WAHA_DASHBOARD_SHA}
 
 #
 # GOWS
