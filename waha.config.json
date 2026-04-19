@@ -3,10 +3,6 @@
     "gows": {
       "repo": "devlikeapro/gows",
       "ref": "v1.0.37"
-    },
-    "dashboard": {
-      "repo": "CloudBlackhand/dashboardWhatsPW",
-      "ref": "9503852d60b789c2371870fb713fb04e706f1c76"
     }
   }
 }

@@ -164,7 +164,9 @@ cargo install wasm-pack --vers 0.14.0 --locked
 yarn install
 # Fetch and compile proto files
 yarn gows:proto
-# Run
+# Run (on first run, compiles dashboard-ui/ → src/dashboard/ if missing)
 yarn start
 # open http://localhost:3000
 ```
+
+**Dashboard (Vite + TanStack Table):** source lives in `dashboard-ui/`. To work on the UI only: `cd dashboard-ui && npm install && npm run dev` (proxies API to the WAHA port). To build the static bundle: `yarn dashboard:build` (output: `src/dashboard/`, gitignored).

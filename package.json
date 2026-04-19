@@ -8,6 +8,10 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "dashboard:install": "npm ci --prefix dashboard-ui",
+    "dashboard:build": "npm run build --prefix dashboard-ui",
+    "prestart": "node scripts/ensure-dashboard.js",
+    "prestart:dev": "node scripts/ensure-dashboard.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

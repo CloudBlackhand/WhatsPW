@@ -29,27 +29,16 @@ RUN yarn install
 RUN yarn build && find ./dist -name "*.d.ts" -delete
 
 #
-# Dashboard
+# Dashboard (Vite + React em dashboard-ui/ → src/dashboard)
 #
 FROM node:${NODE_IMAGE_TAG} AS dashboard
 
-# jq to parse json
-RUN apt-get update && apt-get install -y jq && rm -rf /var/lib/apt/lists/*
-
-# wget, unzip
-RUN apt-get update && apt-get install -y wget unzip && rm -rf /var/lib/apt/lists/*
-
-COPY waha.config.json /tmp/waha.config.json
-RUN \
-    WAHA_DASHBOARD_GITHUB_REPO=$(jq -r '.waha.dashboard.repo' /tmp/waha.config.json) && \
-    WAHA_DASHBOARD_SHA=$(jq -r '.waha.dashboard.ref' /tmp/waha.config.json) && \
-    WAHA_DASHBOARD_REPO_BASENAME="${WAHA_DASHBOARD_GITHUB_REPO##*/}" && \
-    wget https://github.com/${WAHA_DASHBOARD_GITHUB_REPO}/archive/${WAHA_DASHBOARD_SHA}.zip \
-    && unzip ${WAHA_DASHBOARD_SHA}.zip -d /tmp/dashboard \
-    && mkdir -p /dashboard \
-    && mv /tmp/dashboard/${WAHA_DASHBOARD_REPO_BASENAME}-${WAHA_DASHBOARD_SHA}/* /dashboard/ \
-    && rm -rf ${WAHA_DASHBOARD_SHA}.zip \
-    && rm -rf /tmp/dashboard/${WAHA_DASHBOARD_REPO_BASENAME}-${WAHA_DASHBOARD_SHA}
+WORKDIR /git
+COPY dashboard-ui/package.json dashboard-ui/package-lock.json ./dashboard-ui/
+RUN cd dashboard-ui && npm ci
+COPY dashboard-ui ./dashboard-ui
+RUN cd dashboard-ui && npm run build \
+    && test -f /git/src/dashboard/index.html
 
 #
 # GOWS
@@ -213,7 +202,7 @@ WORKDIR /app
 COPY package.json ./
 COPY --from=build /git/node_modules ./node_modules
 COPY --from=build /git/dist ./dist
-COPY --from=dashboard /dashboard ./dist/dashboard
+COPY --from=dashboard /git/src/dashboard ./dist/dashboard
 COPY --from=gows /go/gows/bin/gows /app/gows
 COPY .env.example ./.env.example
 COPY scripts/init-waha.js ./scripts/init-waha.js
